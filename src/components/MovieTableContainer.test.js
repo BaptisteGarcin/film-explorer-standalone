@@ -38,6 +38,31 @@ describe('MovieTableContainer', () => {
       expect(comp.find('MovieTable').prop('movies')).toHaveLength(2);
     });
 
-    // TODO: Add more filtering tests
+    test('Any substring satisfies the filter', () => {
+      comp.setProps({ searchTerm: 'sub' });
+      expect(comp.find('MovieTable').prop('movies')).toHaveLength(1);
+    });
+
+    test('Keyword is case insensitive', () => {
+      comp.setProps({ searchTerm: 'Case' });
+      expect(comp.find('MovieTable').prop('movies')).toHaveLength(2);
+    });
+
+    test('Title and overview are tested', () => {
+      comp.setProps({ searchTerm: 'word' });
+      expect(comp.find('MovieTable').prop('movies')).toHaveLength(2);
+    });
+  });
+
+  describe('Sorts movies by property', () => {
+    test('Sorts by title', () => {
+      comp.setProps({ sortType: 'title' });
+      expect(comp.find('MovieTable').prop('movies')).toEqual(movies);
+    });
+
+    test('Sorts by year of release_date', () => {
+      comp.setProps({ sortType: 'release_date' });
+      expect(comp.find('MovieTable').prop('movies')).toEqual([movies[1], movies[0]]);
+    });
   });
 });
